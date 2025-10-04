@@ -1,0 +1,382 @@
+/* ==================================================
+   style.css  — Full site stylesheet
+   Purpose: remove lens zoom, remove custom DOM cursor,
+            use macOS-style cursors (SVG/PNG), preserve
+            existing theme and UI behavior.
+   ================================================== */
+
+/* ==================================================
+   0. VARIABLES & BASE
+   ================================================== */
+:root{
+  /* palette */
+  --color-dark-primary: #1A1A1A;
+  --color-dark-secondary: #2F4F4F;
+  --color-dark-text: #8E9AA3;
+  --color-accent-main: #B4A582;
+  --color-accent-glow: rgba(180,165,130,0.45);
+  --color-light-bg: #F9F9F9;
+  --color-light-text: #1A1A1A;
+
+  /* typography */
+  --font-heading: 'Rubik', sans-serif;
+  --font-body: 'Pelago', sans-serif;
+
+  /* transitions */
+  --transition-speed: 0.6s;
+  --transition-bezier: cubic-bezier(0.86, 0, 0.07, 1);
+  --fast: 0.18s;
+  --medium: 0.3s;
+  --slow: 0.6s;
+
+  /* cursor fallback colors */
+  --cursor-fallback-dark: #f7f7f7;
+  --cursor-fallback-light: #111111;
+}
+
+/* --------------------------------------------------
+   Light & Dark mode defaults
+   -------------------------------------------------- */
+html {
+  background: var(--color-light-bg);
+  color: var(--color-light-text);
+  scroll-behavior: smooth;
+  transition: background var(--transition-speed), color var(--transition-speed);
+  /* We DO NOT hide native system cursor here — we use CSS-based cursors instead */
+}
+
+/* dark mode */
+html[data-theme="dark"]{
+  background: var(--color-dark-primary);
+  color: var(--color-light-bg);
+}
+html[data-theme="dark"] a { color: var(--color-accent-main); }
+
+/* basic reset */
+*{ box-sizing: border-box; margin:0; padding:0; font-family: var(--font-body); }
+
+/* .site-logo{
+    border-radius: 50%;
+} */
+/* ==================================================
+   1. MACOS CURSORS (using your SVG / PNG assets)
+   ==================================================
+   Note: Many browsers accept custom cursors via url(). If an svg fails,
+   the fallback is the generic cursor (pointer / text / auto). If you
+   want guaranteed cross-browser support, export 32x32 PNG versions.
+   Hotspot coordinates are tuned; tweak them if needed.
+*/
+
+/* global default macOS-like pointer */
+html, body {
+  /* first try SVG, then PNG fallback, then system cursors */
+  cursor: url('handopen.svg') 8 8, url('handopen.svg') 8 8, auto;
+}
+
+/* I-beam for text and text-like blocks */
+input[type="text"],
+input[type="search"],
+textarea,
+[contenteditable="true"],
+p, span, .selectable, .about-bio, .hero-subtext, .work-description {
+  cursor: url('textcursor.svg') 12 20, url('textcursor.svg') 12 20, text;
+}
+
+/* Hand pointer for interactive controls */
+a, button, .toggle-btn, .work-link, .squishy, .connect-header-link, label, [role="button"] {
+  cursor: url('handopen.svg') 8 8, url('handopen.svg') 8 8, pointer;
+}
+
+/* If you want a subtle hover variant, you can reuse the same hand file — browser will show pointer */
+a:hover, button:hover {
+  cursor: url('handopen.svg') 8 8, url('handopen.svg') 8 8, pointer;
+}
+
+/* Accessibility: Respect prefers-reduced-motion (no animated cursors) */
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+/* ==================================================
+   2. TYPOGRAPHY & LAYOUT
+   ================================================== */
+
+h1,h2,h3 { font-family: var(--font-heading); font-weight:900; line-height:0.95; text-transform:uppercase; color:inherit; }
+
+.hero-section {
+  min-height: 100vh;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  padding: 0 5%;
+}
+
+section{ padding: 150px 5%; position: relative; overflow:hidden; }
+
+.hero-heading{ font-size: clamp(5rem, 16vw, 200px); margin-bottom:30px; letter-spacing:-5px; }
+
+.hero-subtext{
+  font-size: clamp(1.2rem, 2.5vw, 32px);
+  max-width: 800px;
+  line-height: 1.4;
+  font-weight: 300;
+  color: var(--color-dark-text);
+}
+
+/* accent text */
+.accent-text{ color: var(--color-accent-main); font-weight:600; }
+
+.section-title{ font-size: clamp(3rem, 6vw, 90px); margin-bottom: 80px; letter-spacing:-3px; text-align:center; }
+
+/* ==================================================
+   3. HEADER & NAV
+   ================================================== */
+
+.main-header{
+  position: sticky; top:0; z-index:2000;
+  padding: 20px 5%;
+  background-color: rgba(255,255,255,0.04);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  transition: background-color var(--medium);
+}
+html[data-theme="dark"] .main-header {
+  background-color: rgba(26,26,26,0.1);
+  border-bottom: 1px solid var(--color-dark-secondary);
+}
+
+.header-content{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+
+.about-logo img{ width:60px; height:auto; transition: filter 0.5s ease; filter: invert(0); }
+html[data-theme="dark"] .about-logo img{ filter: invert(1); }
+
+/* nav */
+.header-nav{ display:flex; gap:30px; align-items:center; }
+.nav-link{
+  text-decoration:none; color:inherit; font-weight:500; position:relative; padding-bottom:8px;
+}
+.nav-link::after{
+  content:''; position:absolute; left:0; bottom:0; width:100%; height:3px; background:var(--color-accent-main);
+  transform: scaleX(0); transform-origin: bottom; transition: transform .4s var(--transition-bezier);
+}
+.nav-link:hover::after{ transform: scaleX(1); }
+
+/* toggle */
+.toggle-btn{
+  background:transparent; border:2px solid currentColor; border-radius:50%; width:45px; height:45px;
+  display:flex; align-items:center; justify-content:center; cursor:pointer; transition: all .25s;
+}
+.toggle-btn:hover{ background: var(--color-accent-main); color: var(--color-dark-primary); }
+.icon:hover{
+  cursor: url('handopen.svg') 8 8, url('handopen.svg') 8 8, pointer;
+}
+
+/* ==================================================
+   4. WORK SECTION
+   ================================================== */
+
+.works-container{ display:flex; flex-direction:column; gap:200px; padding-top:50px; }
+
+.work-item{
+  width:100%; display:block; padding:70px; position:relative; overflow:hidden;
+  border: 1px solid var(--color-dark-text); transition: transform var(--transition-speed) ease-in-out, box-shadow var(--transition-speed) ease-in-out, background-color .3s;
+}
+
+/* Light mode shadows (insane) */
+.work-item{
+  box-shadow:
+    15px 15px 0 0 var(--color-accent-main),
+    30px 30px 0 0 var(--color-dark-secondary);
+}
+
+/* Dark mode shadows */
+html[data-theme="dark"] .work-item{
+  background: var(--color-dark-secondary);
+  box-shadow:
+    15px 15px 0 0 var(--color-accent-main),
+    30px 30px 0 0 var(--color-dark-primary);
+    transition: 0.4s;
+}
+
+.work-item:hover{ transform: translate(-10px, -10px); box-shadow: 20px 20px 0 0 var(--color-accent-main), 40px 40px 0 0 var(--color-dark-primary); }
+html:not([data-theme="dark"]) .work-item:hover { box-shadow: 20px 20px 0 0 var(--color-accent-main), 40px 40px 0 0 var(--color-dark-secondary); }
+
+.work-title{ font-size: clamp(2.5rem, 5vw, 60px); margin-bottom:20px; }
+.work-description{ font-size:1.2rem; max-width:80%; color:var(--color-dark-text); margin-bottom:40px; }
+html[data-theme="dark"] .work-description{ color:var(--color-dark-text); }
+
+.work-link{ display:inline-flex; align-items:center; gap:10px; font-size:1.5rem; font-weight:600; text-decoration:none; color:var(--color-accent-main); transition: letter-spacing .3s; }
+.work-link:hover{ letter-spacing:2px; }
+
+/* CTA Divider */
+.work-cta-divider{ text-align:center; font-size: clamp(2rem, 4vw, 50px); font-family: var(--font-heading); color:var(--color-dark-secondary); margin:100px 0; }
+html[data-theme="dark"] .work-cta-divider{ color: var(--color-dark-text); }
+
+/* ==================================================
+   5. SKILLS / CARDS
+   ================================================== */
+
+.skills-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:40px; padding-top:50px; }
+.skill-card{
+  padding:40px; border:1px solid var(--color-dark-text); box-shadow:5px 5px 0 var(--color-accent-main); transition: transform .3s, box-shadow .3s;
+}
+html[data-theme="dark"] .skill-card{ background: var(--color-dark-secondary); border:none; transition: 0.4s;}
+.skill-card:hover{ transform: translateY(-10px); box-shadow: 10px 15px 0 var(--color-accent-main); }
+.skill-card i{ width:40px; height:40px; color:var(--color-accent-main); margin-bottom:20px; }
+.skill-card h3{ font-size:1.8rem; margin-bottom:10px; }
+.skill-card p{ font-size:1rem; line-height:1.6; color:var(--color-dark-text); }
+
+/* ==================================================
+   6. ABOUT & CONNECT
+   ================================================== */
+
+.about-section{ min-height:80vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; }
+.about-content-wrapper{ max-width:900px; }
+.about-bio{ font-size: clamp(1.5rem, 3vw, 36px); margin-bottom:60px; line-height:1.5; font-weight:300; }
+
+/* Important: remove *lens* zoom styles if any were present previously.
+   We ensure there's no transform/zoom or special pointer styles on .about-bio or .about-section */
+.about-bio, .about-section p, #about p {
+  transform: none !important;
+  transition: none !important;
+  pointer-events: auto;
+}
+
+/* CTA heading */
+.cta-heading{ font-size: clamp(2rem, 4vw, 60px); margin-bottom:30px; color: var(--color-accent-main); }
+
+/* ==================================================
+   7. SQUISHY BUTTON (Connect)
+   ================================================== */
+
+.squishy{
+  position: relative; font-size:1.875rem; padding:0.75rem 2.5rem; font-weight:600; border:none; cursor:pointer;
+  transition: all 250ms; display:inline-flex; align-items:center; gap:0.75rem; font-family: var(--font-body);
+}
+.squishy i{ width:2rem; height:2rem; display:inline-flex; align-items:center; justify-content:center; }
+.squishy-candy{
+  --candy-base: #B4A582;
+  --candy-shadow-light: #C3B497;
+  --candy-shadow-medium: #A59671;
+  --candy-shadow-deep: #8E7D5C;
+  background: linear-gradient(to bottom right, var(--color-accent-main), var(--candy-base));
+  color: var(--color-dark-primary);
+  border-radius: 9999px;
+  box-shadow:
+    inset 0 1px 0 0 rgba(255,255,255,0.4),
+    0 2px 0 0 var(--candy-shadow-light),
+    0 4px 0 0 var(--candy-shadow-medium),
+    0 6px 0 0 var(--candy-shadow-deep),
+    0 8px 0 0 var(--candy-shadow-deep),
+    0 8px 16px 0 rgba(180,165,130,0.45);
+}
+.squishy-candy:hover{
+  transform: translateY(4px);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255,255,255,0.4),
+    0 1px 0 0 var(--candy-shadow-light),
+    0 2px 0 0 var(--candy-shadow-medium),
+    0 3px 0 0 var(--candy-shadow-deep),
+    0 4px 0 0 var(--candy-shadow-deep),
+    0 4px 8px 0 rgba(180,165,130,0.45);
+}
+@keyframes pulse { 0%,100%{ transform: scale(1); } 50%{ transform: scale(1.1); } }
+
+/* ==================================================
+   8. FOOTER
+   ================================================== */
+
+.main-footer{ padding:80px 5%; background: var(--color-dark-secondary); color: var(--color-dark-text); border-top:1px solid var(--color-accent-main); }
+html[data-theme="dark"] .main-footer{ background: var(--color-dark-primary); }
+.footer-grid{ display:grid; grid-template-columns: 2fr 1fr 1fr; gap:40px; max-width:1200px; margin:0 auto; }
+.footer-logo-col .about-logo img{ filter: invert(1); margin-bottom:20px; width:80px; }
+.footer-logo-col .copyright{ font-size:0.9rem; color:var(--color-dark-text); }
+.footer-nav-col h4, .footer-social-col h4{ font-family: var(--font-heading); font-size:1.2rem; margin-bottom:20px; color:var(--color-light-bg); }
+.footer-nav-col a, .footer-social-col a{ display:block; text-decoration:none; color:var(--color-dark-text); margin-bottom:10px; transition: color .3s; }
+.footer-nav-col a:hover, .footer-social-col a:hover{ color:var(--color-accent-main); }
+
+/* ==================================================
+   9. SCROLL ANIMATIONS (utility)
+   ================================================== */
+
+[data-scroll-animation="fade-in-up"]{
+  opacity:0; transform: translateY(30px); transition: opacity 1s var(--transition-bezier), transform 1s var(--transition-bezier);
+}
+.animated{ opacity:1 !important; transform: translateY(0) !important; }
+[data-delay="100"]{ transition-delay: .1s; }
+[data-delay="200"]{ transition-delay: .2s; }
+
+/* ==================================================
+   10. TEXT SELECTION COLOR (custom highlight)
+   ================================================== */
+
+::selection{ background: rgba(180,165,130,0.18); color: var(--color-light-bg); } /* soft tan highlight + light text */
+::-moz-selection{ background: rgba(180,165,130,0.18); color: var(--color-light-bg); }
+
+/* ==================================================
+   11. RESPONSIVE UTILS, small tweaks, helper classes
+   ================================================== */
+
+.container{ max-width:1200px; margin:0 auto; padding: 0 18px; }
+.center{ display:flex; align-items:center; justify-content:center; }
+
+/* small devices */
+@media (max-width:768px){
+  .hero-heading{ font-size: clamp(3rem, 18vw, 96px); letter-spacing: -2px; }
+  section{ padding: 80px 5%; }
+  .works-container{ gap: 80px; }
+}
+
+/* ==================================================
+   12. END OF STYLES
+   ================================================== */
+
+/* Keep this comment at the end to mark file end */
+.theme-switch input {
+  display: none;
+}
+
+.theme-switch .icon {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.theme-switch input:checked + .icon {
+  transform: rotate(180deg);
+}
+.start{
+    color: black;
+}
+/* Connect link enhancements: glowing underline and pointing arrow */
+.connect-header-link::after {
+  box-shadow: 0 0 8px var(--color-accent-glow);
+}
+
+.connect-header-link::before {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid var(--color-accent-main);
+  opacity: 0;
+  transition: opacity 0.4s var(--transition-bezier);
+  filter: drop-shadow(0 0 4px var(--color-accent-glow));
+  z-index: 1;
+}
+
+.connect-header-link:hover::before {
+  opacity: 1;
+}
+
+/* Ensure arrow works in dark mode */
+html[data-theme="dark"] .connect-header-link::before {
+  border-top-color: var(--color-accent-main);
+}
+.site-logo-son{
+  border-radius: 50%;
+}

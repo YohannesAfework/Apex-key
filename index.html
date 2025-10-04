@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
+    <title>Yohannes Afework · Senior Website Developer</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <!-- CUSTOM CURSOR ELEMENT (required by the JS) -->
+    <div id="custom-cursor" class="custom-cursor cursor-arrow" aria-hidden="true">
+        <!-- Inline SVGs use fill="currentColor" so color follows CSS -->
+        <svg id="cursor-arrow" class="cursor-svg cursor-svg--arrow" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M2 2 L18 12 L12 13.5 L11 22 L8 20 L9.5 13.5 L2 2Z" fill="currentColor"/>
+        </svg>
+
+        <svg id="cursor-ibeam" class="cursor-svg cursor-svg--ibeam" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="10" y="3" width="4" height="18" fill="currentColor"/>
+            <rect x="6" y="1" width="12" height="2" fill="currentColor"/>
+            <rect x="6" y="21" width="12" height="2" fill="currentColor"/>
+        </svg>
+
+        <svg id="cursor-hand" class="cursor-svg cursor-svg--hand" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <!-- Simple stylized pointing hand (keeps small file size but readable) -->
+            <path d="M6 11c0-1 1-2 2-2h0c.6 0 1 .4 1 1v6l1 1h3c.6 0 1-.4 1-1v-6c0-.6.4-1 1-1h0c1 0 2 1 2 2v2c0 1-1 2-2 2h-7l-2-2v-4z" fill="currentColor"/>
+        </svg>
+        <!-- Ring / outline is pure CSS (no need for an extra element) -->
+    </div>
+
+    <header class="main-header">
+        <div class="header-content">
+            <div class="about-logo">
+                <img src="logo.png" alt="YA Logo" class="site-logo">
+            </div>
+            <nav class="header-nav">
+                <a href="#work" class="nav-link">Work</a>
+                <a href="#skills" class="nav-link">Expertise</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#final-connect-btn" class="nav-link connect-header-link">Connect</a>
+            </nav>
+           <div id="dark-mode-toggle" class="toggle-btn" aria-label="Toggle Dark/Light Mode">
+  <label class="theme-switch">
+    <input type="checkbox" id="theme-toggle-checkbox" />
+    <span class="icon">💡</span>
+  </label>
+</div>
+
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-text-container">
+                <h1 class="hero-heading">
+                    YOHANNES<br>AFEWORK
+                </h1>
+                <p class="hero-subtext" data-scroll-animation="fade-in-up">
+                    Senior Website Developer & Digital Architect. <span class="accent-text">Crafting impossible, premium web experiences.</span>
+                </p>
+            </div>
+        </section>
+
+        <section id="work" class="work-section">
+            <h2 class="section-title">Selected Works</h2>
+            <div class="works-container">
+
+                <article class="work-item" data-scroll-animation="fade-in-up">
+                    <div class="work-content">
+                        <h3 class="work-title">ENGINEER'S PORTIFOLIO SITE</h3>
+                        <p class="work-description">
+                            A high-performance, dark-mode focused interface pushing modern CSS boundaries. Focused on large-scale data visualization and minimal aesthetics.
+                        </p>
+                        <a href="https://afeworkasfaw.github.io/Personal-Site/" target="_blank" class="work-link">
+                            Launch Project <i data-lucide="arrow-right"></i>
+                        </a>
+                    </div>
+                    <!-- <div class="work-image-placeholder">
+                        <img src="dadis image.png" alt="Preview of The Dark Site">
+                    </div> -->
+                </article>
+
+                <article class="work-item" data-scroll-animation="fade-in-up">
+                    <div class="work-content">
+                        <h3 class="work-title">HOPE UNIVERSITY COLLEGE</h3>
+                        <p class="work-description">
+                            An exploration of negative space and clean typography, proving that maximalist complexity can be hidden under a minimalist shell.
+                        </p>
+                        <a href="https://zerbetious-a11y.github.io/HopeReplica/" target="_blank" class="work-link">
+                            Launch Project <i data-lucide="arrow-right"></i>
+                        </a>
+                    </div>
+                    <!-- <div class="work-image-placeholder">
+                        <!-- <img src="https://via.placeholder.com/800x600/F9F9F9/1A1A1A?text=White+Site+Preview" alt="Preview of The White Site"> -->
+                    <!-- </div> -->
+                </article>
+
+                <div class="work-cta-divider" data-scroll-animation="fade-in-up">
+                    <p>
+                        <span class="underline--magical">Ready for a project that defies expectation?</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="skills-section">
+            <h2 class="section-title">Core Expertise</h2>
+            <div class="skills-grid">
+                <div class="skill-card" data-scroll-animation="fade-in-up" data-delay="0">
+                    <i data-lucide="code-square"></i>
+                    <h3>Full-Stack Development</h3>
+                    <p>Deep knowledge in React/Vue ecosystems, Node.js, and serverless architecture. Emphasis on code quality and performance optimization.</p>
+                </div>
+                <div class="skill-card" data-scroll-animation="fade-in-up" data-delay="100">
+                    <i data-lucide="pen-tool"></i>
+                    <h3>UI/UX Architecture</h3>
+                    <p>Translating complex ideas into intuitive, highly animated user flows. Figma to functional code conversion at an expert level.</p>
+                </div>
+                <div class="skill-card" data-scroll-animation="fade-in-up" data-delay="200">
+                    <i data-lucide="bolt"></i>
+                    <h3>Advanced Animation</h3>
+                    <p>Mastery of GSAP, Three.js, and complex scroll-based events. Creating movement that feels tactile and unexpected.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about-section">
+            <div class="about-content-wrapper">
+                <h2 class="section-title">Yohannes Afework.</h2>
+                <p class="about-bio" data-scroll-animation="fade-in-up">
+                    I'm a Senior Website Developer with a mandate to push the boundaries of front-end development. My passion is translating conceptual, high-fidelity design into production-ready code that is fast, resilient, and visually unforgettable. I specialize in the kind of premium, custom solutions you won't find on a template site.
+                </p>
+                <div class="connect-section-cta" data-scroll-animation="fade-in-up">
+                    <h3 class="cta-heading">Ready to build the impossible?</h3>
+                 <button class="squishy squishy-candy" id="final-connect-btn" data-email="jhonafework1s@gmail.com">
+    <i data-lucide="mail"></i>
+    Start a Project
+</button>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-grid">
+            <div class="footer-logo-col">
+                <div class="about-logo"><img src="favicon.png" alt="YA Logo" class="site-logo-son"></div>
+                <p class="copyright">&copy; 2025 Yohannes Afework. All Rights Reserved.</p>
+            </div>
+            <div class="footer-nav-col">
+                <h4>Navigation</h4>
+                <a href="#work">Work</a>
+                <a href="#skills">Expertise</a>
+                <a href="#about">About</a>
+            </div>
+            <div class="footer-social-col">
+                <h4>Connect</h4>
+                <a href="https://www.linkedin.com/in/yohannes-afework-b40b4232b/" target="_blank">LinkedIn</a>
+                <a href="https://github.com/YohannesAfework" target="_blank">GitHub</a>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=jhonafework1s@gmail.com" target="_blank" rel="noopener">Email</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
