@@ -10,6 +10,43 @@ document.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
   /* ===================================================
+     0. LOADING SCREEN (4-5 seconds)
+     =================================================== */
+  (function initLoadingScreen() {
+    const loadingScreen = document.getElementById('loading-screen');
+    if (!loadingScreen) return;
+
+    // Minimum display time (4 seconds)
+    const minDisplayTime = 4000;
+    const startTime = Date.now();
+
+    function hideLoadingScreen() {
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, minDisplayTime - elapsedTime);
+
+      setTimeout(() => {
+        loadingScreen.classList.add('loaded');
+        
+        // Remove from DOM after transition
+        setTimeout(() => {
+          if (loadingScreen.parentNode) {
+            loadingScreen.parentNode.removeChild(loadingScreen);
+          }
+        }, 500);
+      }, remainingTime);
+    }
+
+    // Wait for window load and minimum display time
+    if (document.readyState === 'complete') {
+      hideLoadingScreen();
+    } else {
+      window.addEventListener('load', hideLoadingScreen);
+    }
+  })();
+
+  // ... rest of your existing JavaScript code continues ...
+
+  /* ===================================================
      1. SAFETY CHECKS & DOM SHORTCUTS
      =================================================== */
   const root = document.documentElement;
@@ -212,3 +249,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
